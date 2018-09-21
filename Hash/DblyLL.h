@@ -220,6 +220,18 @@ public:
 	{
 		return tail->data;
 	}
+	int getDataCount(T value)
+	{
+		node<T> *p = this->head;
+		int count = 0;
+		while (p != NULL)
+		{
+			if (p->data == value)
+				count++;
+			p = p->next;
+		}
+		return count;
+	}
 	void printList()
 	{
 		node<T> *p = this->head;

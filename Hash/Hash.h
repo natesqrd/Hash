@@ -13,9 +13,9 @@ private:
 	vector<DblyLinkedList<double>*> hashArray;
 	DblyLinkedList<double> *dbly;
 	int hashSize = 12;
-	int key(int value)
+	int key(double value)
 	{
-		return value % hashSize;
+		return static_cast<int>(value) % hashSize;
 	}
 	void initHash(int ts)
 	{
@@ -35,18 +35,25 @@ public:
 	{
 		initHash(ts);
 	}
-	void hashf(double value)
+	void hashVal(double value)
 	{
 		dbly = hashArray[key(value)];
+		dbly->addEnd(value);
+	}
+	void hashKey(double key, double value)
+	{
+		dbly = hashArray[this->key(key)];
 		dbly->addEnd(value);
 	}
 	int search(double value)
 	{
 		dbly = hashArray[key(value)];
-		for (int i = 0; dbly->size(); i++)
-		{
-
-		}
+		return dbly->getDataCount(value);
+	}
+	int chainSize(double value)
+	{
+		dbly = hashArray[key(value)];
+		return dbly->size();
 	}
 	void printTable()
 	{
@@ -57,5 +64,8 @@ public:
 			dbly->printList();
 		}
 	}
-
+	int size()
+	{
+		return hashSize;
+	}
 };

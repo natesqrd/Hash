@@ -1,21 +1,31 @@
 #pragma once
 #include "DblyLL.h"
+#include <vector>
+#include <iostream>
 
-template<class T>
-class Hash : public DblyLinkedList<T>
+using std::vector;
+using std::cout;
+using std::endl;
+
+class Hash
 {
 private:
-	int hashArray[hashSize];
-	static int hashSize = 50;
+	vector<DblyLinkedList<double>*> hashArray;
+	DblyLinkedList<double> *dbly;
+	int hashSize = 12;
+	int key(int value)
+	{
+		return value % hashSize;
+	}
 	void initHash(int ts)
 	{
 		hashSize = ts;
 		for (int i = 0; i < hashSize; i++)
 		{
-			hashArray[i] = new Node<T>;
+			dbly = new DblyLinkedList<double>;
+			hashArray.push_back(dbly);
 		}
 	}
-	int hash(T);
 public:
 	Hash()
 	{
@@ -24,6 +34,28 @@ public:
 	Hash(int ts)
 	{
 		initHash(ts);
+	}
+	void hashf(double value)
+	{
+		dbly = hashArray[key(value)];
+		dbly->addEnd(value);
+	}
+	int search(double value)
+	{
+		dbly = hashArray[key(value)];
+		for (int i = 0; dbly->size(); i++)
+		{
+
+		}
+	}
+	void printTable()
+	{
+		for (int i = 0; i < hashSize; i++)
+		{
+			dbly = hashArray[i];
+			cout << i << ": ";
+			dbly->printList();
+		}
 	}
 
 };

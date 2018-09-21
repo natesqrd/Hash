@@ -7,6 +7,8 @@ Description: RPN Calculator using Stacks
 */
 #pragma once
 #include <iostream>
+using std::cout;
+using std::endl;
 /*
 Traversing a list
 
@@ -218,5 +220,14 @@ public:
 	{
 		return tail->data;
 	}
-
+	void printList()
+	{
+		node<T> *p = this->head;
+		while (p != NULL)
+		{
+			cout << p->data << " ";
+			p = p->next;
+		}
+		cout << endl;
+	}
 };

@@ -34,7 +34,9 @@ public:
 	{
 		int hash = 5381;
 		for (char c : str)
+		{
 			hash = (hash << 5) + c;
+		}
 		return hash % hashSize;
 	}
 	Hash()
@@ -82,6 +84,17 @@ public:
 	int size()
 	{
 		return hashSize;
+	}
+	void printPos(string name)
+	{
+		dbly = hashArray[bernHash(name)];
+		cout << "(" << bernHash(name) << "-" << dbly->pos(name) << ")" << endl;
+	}
+	void printInfo(string name)
+	{
+		cout << name << " ";
+		printPos(name);
+		cout << find(name) << endl;
 	}
 	/*void hashString(string key, double value)
 	{

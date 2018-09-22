@@ -264,4 +264,15 @@ public:
 		}
 		return p->data_1;
 	}
+	int pos(T value)
+	{
+		node<T> *p = this->head;
+		int pos = 0;
+		while (p->data != value)
+		{
+			pos++;
+			p = p->next;
+		}
+		return pos;
+	}
 };

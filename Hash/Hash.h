@@ -2,7 +2,9 @@
 #include "DblyLL.h"
 #include <vector>
 #include <iostream>
+#include <string>
 
+using std::string;
 using std::vector;
 using std::cout;
 using std::endl;
@@ -10,23 +12,31 @@ using std::endl;
 class Hash
 {
 private:
-	vector<DblyLinkedList<double>*> hashArray;
-	DblyLinkedList<double> *dbly;
-	int hashSize = 12;
+	vector<DblyLinkedList<string>*> hashArray;
+	DblyLinkedList<string> *dbly;
+	int hashSize = 53;
 	int key(double value)
 	{
 		return static_cast<int>(value) % hashSize;
 	}
+
 	void initHash(int ts)
 	{
 		hashSize = ts;
 		for (int i = 0; i < hashSize; i++)
 		{
-			dbly = new DblyLinkedList<double>;
+			dbly = new DblyLinkedList<string>;
 			hashArray.push_back(dbly);
 		}
 	}
 public:
+	int bernHash(string str)
+	{
+		int hash = 5381;
+		for (char c : str)
+			hash = (hash << 5) + c;
+		return hash % hashSize;
+	}
 	Hash()
 	{
 		initHash(hashSize);
@@ -35,20 +45,25 @@ public:
 	{
 		initHash(ts);
 	}
-	void hashVal(double value)
+	/*void hashVal(double value)
 	{
 		dbly = hashArray[key(value)];
-		dbly->addEnd(value);
-	}
-	void hashKey(double key, double value)
+		//dbly->addFront(value);
+	}*/
+	void hash(string name, string phoneNum)
 	{
-		dbly = hashArray[this->key(key)];
-		dbly->addEnd(value);
+		dbly = hashArray[bernHash(name)];
+		dbly->addEnd(name, phoneNum);
 	}
-	int search(double value)
+	int search(string value)
 	{
-		dbly = hashArray[key(value)];
+		dbly = hashArray[bernHash(value)];
 		return dbly->getDataCount(value);
+	}
+	string find(string name)
+	{
+		dbly = hashArray[bernHash(name)];
+		return dbly->find(name);
 	}
 	int chainSize(double value)
 	{
@@ -68,4 +83,9 @@ public:
 	{
 		return hashSize;
 	}
+	/*void hashString(string key, double value)
+	{
+		dbly = hashArray[bernHash(key)];
+		dbly->addFront(value, key);
+	}*/
 };

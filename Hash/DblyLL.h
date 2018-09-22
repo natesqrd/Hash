@@ -34,6 +34,7 @@ template<class T>
 struct node
 {
 	T data;
+	T data_1;
 	node* next;
 	node* prev;
 };
@@ -85,12 +86,13 @@ public:
 	else a new node is added to the end
 	Inputs: T data
 	*/
-	void addEnd(T data)
+	void addEnd(T data, T data_0)
 	{
 		if (head == NULL)
 		{
 			head = new node<T>;
 			head->data = data;
+			head->data_1 = data_0;
 			head->next = NULL;
 			head->prev = NULL;
 			tail = head;
@@ -105,6 +107,7 @@ public:
 
 			node<T> *n = new node<T>;
 			n->data = data;
+			n->data_1 = data_0;
 			n->next = NULL;
 
 			p->next = n;
@@ -120,12 +123,13 @@ public:
 	Description: Look at addEnd description, adds to front instead
 	Inputs: T data
 	*/
-	void addFront(T data)//enqueue
+	void addFront(T data, T data_0)//enqueue
 	{
 		if (head == NULL)
 		{
 			head = new node<T>;
 			head->data = data;
+			head->data_1 = data_0;
 			head->next = NULL;
 			head->prev = NULL;
 			tail = head;
@@ -137,10 +141,11 @@ public:
 
 		node<T> *n = new node<T>;
 		n->data = data;
+		n->data_1 = data_0;
 		n->prev = NULL;
 		p->prev = n;
 		n->next = p;
-		p = p->prev;
+		head = n;
 		this->linkSize++;
 	}
 
@@ -209,6 +214,10 @@ public:
 	{
 		return head->data;
 	}
+	T getHeadData_1()
+	{
+		return head->data_1;
+	}
 
 	/*
 	Function: getTailData
@@ -220,13 +229,17 @@ public:
 	{
 		return tail->data;
 	}
+	T getTailData_1()
+	{
+		return tail->data_1;
+	}
 	int getDataCount(T value)
 	{
 		node<T> *p = this->head;
 		int count = 0;
 		while (p != NULL)
 		{
-			if (p->data == value)
+			if (p->data_1 == value)
 				count++;
 			p = p->next;
 		}
@@ -237,9 +250,18 @@ public:
 		node<T> *p = this->head;
 		while (p != NULL)
 		{
-			cout << p->data << " ";
+			cout <<p->data << " " << p->data_1 << " ";
 			p = p->next;
 		}
 		cout << endl;
+	}
+	T find(T search)
+	{
+		node<T> *p = head;
+		while (p->data != search)
+		{
+			p = p->next;
+		}
+		return p->data_1;
 	}
 };

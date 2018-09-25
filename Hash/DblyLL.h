@@ -7,6 +7,7 @@ Description: RPN Calculator using Stacks
 */
 #pragma once
 #include <iostream>
+#include <iomanip>
 using std::cout;
 using std::endl;
 /*
@@ -34,7 +35,7 @@ template<class T>
 struct node
 {
 	T data;
-	T data_1;
+	//T data_1;
 	node* next;
 	node* prev;
 };
@@ -86,13 +87,13 @@ public:
 	else a new node is added to the end
 	Inputs: T data
 	*/
-	void addEnd(T data, T data_0)
+	void addEnd(T data/*,T data_0*/)
 	{
 		if (head == NULL)
 		{
 			head = new node<T>;
 			head->data = data;
-			head->data_1 = data_0;
+			//head->data_1 = data_0;
 			head->next = NULL;
 			head->prev = NULL;
 			tail = head;
@@ -107,7 +108,7 @@ public:
 
 			node<T> *n = new node<T>;
 			n->data = data;
-			n->data_1 = data_0;
+			//n->data_1 = data_0;
 			n->next = NULL;
 
 			p->next = n;
@@ -123,13 +124,13 @@ public:
 	Description: Look at addEnd description, adds to front instead
 	Inputs: T data
 	*/
-	void addFront(T data, T data_0)//enqueue
+	void addFront(T data/*, T data_0*/)//enqueue
 	{
 		if (head == NULL)
 		{
 			head = new node<T>;
 			head->data = data;
-			head->data_1 = data_0;
+			//head->data_1 = data_0;
 			head->next = NULL;
 			head->prev = NULL;
 			tail = head;
@@ -141,7 +142,7 @@ public:
 
 		node<T> *n = new node<T>;
 		n->data = data;
-		n->data_1 = data_0;
+		//n->data_1 = data_0;
 		n->prev = NULL;
 		p->prev = n;
 		n->next = p;
@@ -214,10 +215,10 @@ public:
 	{
 		return head->data;
 	}
-	T getHeadData_1()
+	/*T getHeadData_1()
 	{
 		return head->data_1;
-	}
+	}*/
 
 	/*
 	Function: getTailData
@@ -229,17 +230,17 @@ public:
 	{
 		return tail->data;
 	}
-	T getTailData_1()
+	/*T getTailData_1()
 	{
 		return tail->data_1;
-	}
+	}*/
 	int getDataCount(T value)
 	{
 		node<T> *p = this->head;
 		int count = 0;
 		while (p != NULL)
 		{
-			if (p->data_1 == value)
+			if (p->data == value)
 				count++;
 			p = p->next;
 		}
@@ -250,7 +251,7 @@ public:
 		node<T> *p = this->head;
 		while (p != NULL)
 		{
-			cout <<p->data << " " << p->data_1 << " ";
+			cout << std::setprecision(10) << p->data << " ";
 			p = p->next;
 		}
 		cout << endl;
@@ -262,7 +263,23 @@ public:
 		{
 			p = p->next;
 		}
-		return p->data_1;
+		return p->data;
+	}
+	T find(int search)
+	{
+		node<T> *p = this->head;
+		int pos = 0;
+		while (pos != search)
+		{
+			if (p->next == NULL)
+			{
+				cout << "Out of bounds" << endl;
+				exit(-1);
+			}
+			p = p->next;
+			pos++;
+		}
+		return p->data;
 	}
 	int pos(T value)
 	{

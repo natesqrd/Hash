@@ -26,5 +26,13 @@
     <ClInclude Include="DblyLL.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Contacts.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\..\..\Downloads\HashData.TXT">
+      <Filter>Source Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

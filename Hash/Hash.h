@@ -1,104 +1,84 @@
-#pragma once
 #include "DblyLL.h"
-#include <vector>
 #include <iostream>
+#include <vector>
 #include <string>
-
+#include <fstream>
+#include <algorithm>
+#include <cmath>
+#include <sstream>
+#include <iomanip>
 using std::string;
 using std::vector;
-using std::cout;
-using std::endl;
+using std::ifstream;
 
 class Hash
 {
-private:
-	vector<DblyLinkedList<string>*> hashArray;
-	DblyLinkedList<string> *dbly;
-	int hashSize = 53;
-	int key(double value)
+protected:
+	vector<DblyLinkedList<double>*> hashTable;
+	
+	DblyLinkedList<double> *db;
+	int tableSize = 53;
+
+	void init(int tableSize)
 	{
-		return static_cast<int>(value) % hashSize;
+		this->tableSize = tableSize;
+		for (int i = 0; i < this->tableSize; i++)
+			this->hashTable.push_back(new DblyLinkedList<double>);
+	}
+	int key(double key) { return static_cast<int>(key) % this->size(); }
+	int key(string key)
+	{
+		int hashVal = 5381;
+		for (char c : key)
+			hashVal = abs((hashVal << 5) + c);
+		return this->key(hashVal);
 	}
 
-	void initHash(int ts)
-	{
-		hashSize = ts;
-		for (int i = 0; i < hashSize; i++)
-		{
-			dbly = new DblyLinkedList<string>;
-			hashArray.push_back(dbly);
-		}
-	}
 public:
-	int bernHash(string str)
-	{
-		int hash = 5381;
-		for (char c : str)
-		{
-			hash = (hash << 5) + c;
-		}
-		return hash % hashSize;
+	//Hash functions
+	Hash() { this->init(this->tableSize); }
+	Hash(int hs) { this->init(hs); }
+	void hash(double value)
+	{ 
+		this->db = this->hashTable[this->key(value)];
+		this->db->addEnd(value);
 	}
-	Hash()
+	void hash(string key, double value)
 	{
-		initHash(hashSize);
+		this->db = this->hashTable[this->key(key)];
+		this->db->addEnd(value);
 	}
-	Hash(int ts)
+	int search(double value)
 	{
-		initHash(ts);
+		this->db = this->hashTable[this->key(value)];
+		return this->db->getDataCount(value);
 	}
-	/*void hashVal(double value)
+	int search(string key)
 	{
-		dbly = hashArray[key(value)];
-		//dbly->addFront(value);
-	}*/
-	void hash(string name, string phoneNum)
-	{
-		dbly = hashArray[bernHash(name)];
-		dbly->addEnd(name, phoneNum);
+		this->db = this->hashTable[this->key(key)];
+		return this->db->size();
 	}
-	int search(string value)
+	double get(string key)
 	{
-		dbly = hashArray[bernHash(value)];
-		return dbly->getDataCount(value);
-	}
-	string find(string name)
-	{
-		dbly = hashArray[bernHash(name)];
-		return dbly->find(name);
-	}
-	int chainSize(double value)
-	{
-		dbly = hashArray[key(value)];
-		return dbly->size();
+		this->db = this->hashTable[this->key(key)];
+		return this->db->getHeadData();
 	}
 	void printTable()
 	{
-		for (int i = 0; i < hashSize; i++)
+		for (int i = 0; i < this->size(); i++)
 		{
-			dbly = hashArray[i];
-			cout << i << ": ";
-			dbly->printList();
+			this->db = this->hashTable[i];
+			cout << i << ": "; db->printList();
 		}
 	}
-	int size()
-	{
-		return hashSize;
-	}
-	void printPos(string name)
-	{
-		dbly = hashArray[bernHash(name)];
-		cout << "(" << bernHash(name) << "-" << dbly->pos(name) << ")" << endl;
-	}
-	void printInfo(string name)
-	{
-		cout << name << " ";
-		printPos(name);
-		cout << find(name) << endl;
-	}
-	/*void hashString(string key, double value)
-	{
-		dbly = hashArray[bernHash(key)];
-		dbly->addFront(value, key);
-	}*/
+	int size() { return this->tableSize; }
+
+
+
+
+
+	//File functions
+
+	
+
 };

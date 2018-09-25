@@ -1,9 +1,9 @@
 /*
 Assignment Author: Nathaniel Tucker
 Student ID: 0398463
-Due Date: Sept 3 2018
-Assignment: CSIS_ASSIGNMENT_3
-Description: RPN Calculator using Stacks
+Due Date: 9/24
+Assignment: HashTable
+Description: Use a Hash table to store and retrieve names adn phone#s form a file
 */
 #pragma once
 #include <iostream>
@@ -35,7 +35,6 @@ template<class T>
 struct node
 {
 	T data;
-	//T data_1;
 	node* next;
 	node* prev;
 };
@@ -87,13 +86,12 @@ public:
 	else a new node is added to the end
 	Inputs: T data
 	*/
-	void addEnd(T data/*,T data_0*/)
+	void addEnd(T data)
 	{
 		if (head == NULL)
 		{
 			head = new node<T>;
 			head->data = data;
-			//head->data_1 = data_0;
 			head->next = NULL;
 			head->prev = NULL;
 			tail = head;
@@ -108,7 +106,6 @@ public:
 
 			node<T> *n = new node<T>;
 			n->data = data;
-			//n->data_1 = data_0;
 			n->next = NULL;
 
 			p->next = n;
@@ -124,13 +121,12 @@ public:
 	Description: Look at addEnd description, adds to front instead
 	Inputs: T data
 	*/
-	void addFront(T data/*, T data_0*/)//enqueue
+	void addFront(T data)//enqueue
 	{
 		if (head == NULL)
 		{
 			head = new node<T>;
 			head->data = data;
-			//head->data_1 = data_0;
 			head->next = NULL;
 			head->prev = NULL;
 			tail = head;
@@ -142,7 +138,6 @@ public:
 
 		node<T> *n = new node<T>;
 		n->data = data;
-		//n->data_1 = data_0;
 		n->prev = NULL;
 		p->prev = n;
 		n->next = p;
@@ -215,10 +210,6 @@ public:
 	{
 		return head->data;
 	}
-	/*T getHeadData_1()
-	{
-		return head->data_1;
-	}*/
 
 	/*
 	Function: getTailData
@@ -230,10 +221,12 @@ public:
 	{
 		return tail->data;
 	}
-	/*T getTailData_1()
-	{
-		return tail->data_1;
-	}*/
+	
+	/*
+	Funciton: getDataCount
+	Author: NT
+	returns number of times value shows up in DLL
+	*/
 	int getDataCount(T value)
 	{
 		node<T> *p = this->head;
@@ -246,6 +239,12 @@ public:
 		}
 		return count;
 	}
+
+	/*
+	Function: printList
+	Author: NT
+	prints list to console with precision 10
+	*/
 	void printList()
 	{
 		node<T> *p = this->head;
@@ -256,16 +255,13 @@ public:
 		}
 		cout << endl;
 	}
-	T find(T search)
-	{
-		node<T> *p = head;
-		while (p->data != search)
-		{
-			p = p->next;
-		}
-		return p->data;
-	}
-	T find(int search)
+
+	/*
+	Function: find
+	Author: NT
+	Returns value at search
+	*/
+	T at(int search)
 	{
 		node<T> *p = this->head;
 		int pos = 0;
@@ -281,6 +277,12 @@ public:
 		}
 		return p->data;
 	}
+
+	/*
+	Function: pos
+	Author: NT
+	returns position of value in DLL 
+	*/
 	int pos(T value)
 	{
 		node<T> *p = this->head;
